@@ -3,6 +3,7 @@
 
 #define sub(a, b) a-b>0 ? a-b:b-a
 using namespace std;
+FILE* fp = fopen("output.txt", "w");
 int N,M;
 int D;
 int arr[15][15];
@@ -22,26 +23,26 @@ int calc_arrs(){
 	int a = set[0];
 	int b = set[1];
 	int c = set[2];
-	printf("%d %d %d\n",a,b,c);
 	int result = 0;
-	printf("(%d %d %d)\n",a,b,c);
+	fprintf(fp,"(%d %d %d)\n",a,b,c);
 	for(int i=0;i<N;++i){
 		for(int j = 0; j< M;++j){
-			printf("[%d %d %d] ",p[a].arr[i][j],p[b].arr[i][j],p[c].arr[i][j]);
+			fprintf(fp,"[%d %d %d] ",p[a].arr[i][j],p[b].arr[i][j],p[c].arr[i][j]);
 			if((p[a].arr[i][j] & p[b].arr[i][j] & p[c].arr[i][j]) == 1){
 				result += 1;
 			}
 		}
-		printf("\n");
+		fprintf(fp,"\n");
 	}
 	return result;
 }
 
 
 bool find_obj(const int d,const int y, const int x){
+	if(y-d<0){return false;}
 	if (M - d < 0)
 	{
-		printf("%d %d : over\n",y,x);
+		fprintf(fp,"%d %d %d: over\n",d,y,x);
 		for(int i = 0;i<M;++i){
 			int j = sub(i,x);
 			if(p[x].arr[y-j-1][i] == 1){
@@ -51,7 +52,7 @@ bool find_obj(const int d,const int y, const int x){
 		}
 	}
 	else if(x-d >= 0 && x+d <= M-1){
-		printf("%d %d : good\n",y,x);
+		fprintf(fp,"%d %d %d: good\n",d,y,x);
 		for(int i = x-d+1;i<=x+d-1;++i){
 			int j = sub(i,x);
 			if(p[x].arr[y-1-j][i] == 1){
@@ -61,7 +62,7 @@ bool find_obj(const int d,const int y, const int x){
 		}
 	}
 	else if(x-d < 0){
-		printf("%d %d : left\n",y,x);
+		fprintf(fp,"%d %d %d: left\n",d,y,x);
 		for(int i = 0;i<=x+d-1;++i){
 			int j = sub(i,x);
 			if(p[x].arr[y-j-1][i] == 1){
@@ -71,7 +72,7 @@ bool find_obj(const int d,const int y, const int x){
 		}
 	}
 	else {
-		printf("%d %d : right\n",y,x);
+		fprintf(fp,"%d %d %d: right\n",d,y,x);
 		for(int i = x-d+1;i<=M-1;++i){
 			int j = sub(i,x);
 			if(p[x].arr[y-1-j][i] == 1){
@@ -95,9 +96,9 @@ void DFS(int idx, int Cnt)
 		}
 
 		int a = calc_arrs();
-		printf("%d - %d = ",sum,a);
+		fprintf(fp,"%d - %d = ",sum,a);
 		sum = sum - a;
-		printf("%d\n",sum);
+		fprintf(fp,"%d\n",sum);
 		answer = sum > answer ? sum : answer; 
 		return;
     }
@@ -112,7 +113,7 @@ void DFS(int idx, int Cnt)
 }
 
 int main(){
-	
+
 	scanf("%d",&N);
 	scanf("%d",&M);
 	scanf("%d",&D);
@@ -144,5 +145,5 @@ int main(){
 
 
 	DFS(0,0);
-	printf("%d",answer);
+	fprintf(fp,"%d",answer);
 }
