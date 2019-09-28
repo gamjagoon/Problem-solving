@@ -41,15 +41,17 @@ int calc_arrs(){
 bool find_obj(const int d,const int y, const int x){
 	if (M - d < 0)
 	{
+		printf("%d %d : over\n",y,x);
 		for(int i = 0;i<M;++i){
 			int j = sub(i,x);
-			if(p[x].arr[y-j][i] == 1){
-				p[x].arr[y-j][i] = 0;
+			if(p[x].arr[y-j-1][i] == 1){
+				p[x].arr[y-j-1][i] = 0;
 				return true;
 			}
 		}
 	}
 	else if(x-d >= 0 && x+d <= M-1){
+		printf("%d %d : good\n",y,x);
 		for(int i = x-d+1;i<=x+d-1;++i){
 			int j = sub(i,x);
 			if(p[x].arr[y-1-j][i] == 1){
@@ -59,15 +61,17 @@ bool find_obj(const int d,const int y, const int x){
 		}
 	}
 	else if(x-d < 0){
+		printf("%d %d : left\n",y,x);
 		for(int i = 0;i<=x+d-1;++i){
 			int j = sub(i,x);
-			if(p[x].arr[y-j][i] == 1){
-				p[x].arr[y-j][i] = 0;
+			if(p[x].arr[y-j-1][i] == 1){
+				p[x].arr[y-j-1][i] = 0;
 				return true;
 			}
 		}
 	}
 	else {
+		printf("%d %d : right\n",y,x);
 		for(int i = x-d+1;i<=M-1;++i){
 			int j = sub(i,x);
 			if(p[x].arr[y-1-j][i] == 1){
@@ -93,7 +97,7 @@ void DFS(int idx, int Cnt)
 		int a = calc_arrs();
 		printf("%d - %d = ",sum,a);
 		sum = sum - a;
-		printf("%d",sum);
+		printf("%d\n",sum);
 		answer = sum > answer ? sum : answer; 
 		return;
     }
@@ -108,6 +112,7 @@ void DFS(int idx, int Cnt)
 }
 
 int main(){
+	
 	scanf("%d",&N);
 	scanf("%d",&M);
 	scanf("%d",&D);
