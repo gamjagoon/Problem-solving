@@ -132,7 +132,6 @@ int main(){
 		p.emplace_back(b);
 	}
 
-
 	for(int i = 0; i < M;++i){
 		for(int h = N;h >= 1;--h){
 			for(int j = 1;j<=D;++j){
