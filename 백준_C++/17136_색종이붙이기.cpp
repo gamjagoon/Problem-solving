@@ -218,7 +218,7 @@ void func(int y, int x,int x_end,int y_end,int u)
 			return;
 		}
 		else{
-			cnt
+			cnt;
 		}
 		return;
 	}
