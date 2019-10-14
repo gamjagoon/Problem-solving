@@ -26,7 +26,6 @@ void find_first_element(int &x,int &y,int u);
 void find_last_element(int &x,int &y,int u);
 bool Inspection(int x,int y,int n,int u);
 void func(int y, int x,int x_end,int y_end,int u);
-void paper_now();
 
 
 int main(){
@@ -70,18 +69,25 @@ int main(){
 			}
 		}
 		result = cnt;
+		int prev_result;
 		for(int i = 1;i < index;++i)
 		{
 			if(element[i] != 0){
+			printf("%d\n",cnt_result[i]);
+			}
+		}
+		for(int i = 1;i < index;++i)
+		{
+			if(element[i] != 0){
+				prev_result = result;
 				result += cnt_result[i];
 			}
-			if(cnt_result[i] == -1){
+			if(prev_result == result){
 				printf("-1");
 				return 0;
 			}
 		}
 		printf("%d",result);
-		
 	}
 	return 0;
 }
@@ -219,6 +225,10 @@ int good_n(int u){
 	if(loc < 25)return 4;
 	return 5;
 }
+void disp_prev_paper()
+{
+	printf("1:%d 2:%d 3:%d 4:%d 5:%d\n",prev_paper[1],prev_paper[2],prev_paper[3],prev_paper[4],prev_paper[5]);
+}
 void disp_paper()
 {
 	printf("1:%d 2:%d 3:%d 4:%d 5:%d\n",paper[1],paper[2],paper[3],paper[4],paper[5]);
@@ -234,16 +244,16 @@ void func(int y, int x,int x_end,int y_end,int u)
 	}
 	if (y == y_end+1)
 	{
-		disp_paper();
-		for(int i =1; i < 6;++i){
-			if(prev_paper[i]- (5-paper[i]) >= 0){
-				prev_paper[i] -= (5 - paper[i]);
-			}
-			else {
-				cnt_result[u] = -1;
+		for(int i = 1; i < 6;++i){
+			if(prev_paper[i]-(5-paper[i]) < 0 )
+			{
 				return;
 			}
 		}
+		for(int i = 1; i < 6;++i){
+			prev_paper[i] = paper[i];
+		}
+		printf("after\n");
 		result = min(cnt_elemet[u],result);
 		cnt_result[u] = result;
 		return;
@@ -282,11 +292,4 @@ void func(int y, int x,int x_end,int y_end,int u)
 		paper[n]++;
 		cnt_elemet[u]--;
 	}
-}
-
-void paper_now(){
-	for(int i = 1;i < 6;++i){
-		printf("%d ",paper[i]);
-	}
-	printf("\n");
 }

@@ -1,57 +1,120 @@
+#include <vector>
+#include <cstring>
 #include <iostream>
+#include <algorithm>
 
 using namespace std;
 
-void _swap(int *a,int *b){
-    int temp = *a;
-    *a = *b;
-    *b = temp;
-}
-int arr[10000];
+vector<vector<int>> mat;
+int nusang[3];
 
-int main(){
-    int n;
-    cin>>n;
-    for(int i = 0;i<n;i++){
-        cin>>arr[i];
-    }
-    if(n==1){
-        cout<<-1;
-        return 0;
-    }
+int main(void) {
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
 
-    //x1 과 x2를 구한다 배열은 0부터 이므로 -1
-    int x1 = n-1,x2 = n -1;
+	int n;
+	cin >> n;
+	mat = vector<vector<int>>(n, vector<int>(9));
 
-    //v[idx - 1] < v[idx]를 만족하는 가장 큰 idx를 찾는다
-    while (x1>0 && arr[x1-1]>arr[x1])
-    {
-        x1--;
-    }
-    cout<<"biggest x1 = "<<x1<<endl;
-    if (x1 == 0)
-    {
-        cout << -1 << "\n";
-        return 0;
-    }
-    while (arr[x1-1]>arr[x2])
-    {
-        cout<<arr[x1-1]<<" > "<<arr[x2]<<endl;
-        x2--;
-    }
-    cout<<"biggest x2 = "<<x2<<endl;
-    cout<<arr[x1-1]<<" sawp "<<arr[x2]<<endl;
-    _swap(&arr[x1-1],&arr[x2]);
-    x2 = n - 1;
-    while (x1 < x2)
-    {
-        cout<<"swap "<<x1<<" with "<<x2<<endl;;
-        _swap(&arr[x1], &arr[x2]);
-        x1++;
-        x2--;
-    }
-    for(int i = 0;i<n;i++){
-    cout<<arr[i]<<' ';
-    }
-    return 0;
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < 9; j++) {
+			cin >> mat[i][j];
+		}
+	}
+
+	vector<int> d = { 1, 2, 3, 4, 5, 6 ,7, 8 };
+	int ans = -1;
+
+	do {
+		int idx[9];
+		memset(idx, 0, sizeof(idx));
+		for (int i = 0; i < 3; i++) {
+			idx[i] = d[i];
+		}
+		for (int i = 3; i < 8; i++) {
+			idx[i + 1] = d[i];
+		}
+
+		int num = 0, player = idx[0];
+		int inning = 0, score = 0, out = 0;
+		memset(nusang, 0, sizeof(nusang));
+		
+		while (inning < n) {
+			if (mat[inning][player] == 0) {
+				out += 1;
+			}
+			else if (mat[inning][player] == 1) {
+				if (nusang[2] == 1) {
+					score += 1;
+					nusang[2] = 0;
+				}
+				if (nusang[1] == 1) {
+					nusang[2] = 1;
+					nusang[1] = 0;
+				}
+				if (nusang[0] == 1) {
+					nusang[1] = 1;
+					nusang[0] = 0;
+				}
+				nusang[0] = 1;
+			}
+			else if (mat[inning][player] == 2) {
+				if (nusang[2] == 1) {
+					score += 1;
+					nusang[2] = 0;
+				}
+				if (nusang[1] == 1) {
+					score += 1;
+					nusang[1] = 0;
+				}
+				if (nusang[0] == 1) {
+					nusang[2] = 1;
+					nusang[0] = 0;
+				}
+				nusang[1] = 1;
+			}
+			else if (mat[inning][player] == 3) {
+				if (nusang[2] == 1) {
+					score += 1;
+					nusang[2] = 0;
+				}
+				if (nusang[1] == 1) {
+					score += 1;
+					nusang[1] = 0;
+				}
+				if (nusang[0] == 1) {
+					score += 1;
+					nusang[0] = 0;
+				}
+				nusang[2] = 1;
+			}
+			else if (mat[inning][player] == 4) {
+				int check = 0;
+				for (int i = 0; i < 3; i++) {
+					if (nusang[i] == 1) {
+						check += 1;
+						nusang[i] = 0;
+					}
+				}
+				score += check + 1;
+			}
+
+			if (out == 3) {
+				out = 0;
+				memset(nusang, 0, sizeof(nusang));
+				inning += 1;
+			}
+			if (++num == 9) {
+				num = 0;
+			}
+			player = idx[num];
+		}
+
+		if (ans == -1 || score > ans) {
+			ans = score;
+		}
+	} while (next_permutation(d.begin(), d.end()));
+
+	cout << ans << '\n';
+	return 0;
 }
