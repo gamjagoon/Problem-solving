@@ -66,7 +66,6 @@ bool findresult(int now) {
 }
 
 
-
 int main() {
 	scanf("%d", &test_case);
 	Game g;
