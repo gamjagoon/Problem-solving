@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "백준_C++"
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"limits": "cpp",
+			"random": "cpp",
+			"algorithm": "cpp"
+		}
+	}
+}
