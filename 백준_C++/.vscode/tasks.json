@@ -10,9 +10,7 @@
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
-            "options": {
-                "cwd": "C:\\MinGW\\bin"
-            }
+            "options": {}
         },
         {
             "type": "shell",
@@ -24,9 +22,7 @@
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],
-            "options": {
-                "cwd": "C:/MinGW/bin"
-            }
+            "options": {}
         }
     ],
     "version": "2.0.0"
