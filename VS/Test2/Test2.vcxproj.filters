@@ -23,7 +23,7 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="counting_cell.cpp">
+    <ClCompile Include="1916_최소비용구하기.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
