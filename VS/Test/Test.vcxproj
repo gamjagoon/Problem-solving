@@ -23,7 +23,7 @@
     <Text Include="out.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="02206_벽부수고이동하기.cpp" />
+    <ClCompile Include="09205_맥주마시며걷기.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
