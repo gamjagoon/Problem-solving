@@ -23,7 +23,7 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="09205_맥주마시며걷기.cpp">
+    <ClCompile Include="02098_외판원순회.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
