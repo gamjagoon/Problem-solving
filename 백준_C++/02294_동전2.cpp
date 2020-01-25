@@ -14,7 +14,7 @@ int main()
 		cin>>val[i];
 	}
 	for(int i = 0 ; i<= k;++i){
-		dp[k] = 101;
+		dp[i] = 10001;
 	}
 	dp[0] = 0;
 	for(int i = 1; i <= n;++i)
@@ -25,6 +25,8 @@ int main()
 			}
 		}
 	}
-	cout<<dp[k];
+	if(dp[k] == 10001)cout<<-1;
+	else cout<<dp[k];
+
 	return 0;
 }
