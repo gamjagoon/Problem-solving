@@ -1,181 +1,113 @@
-#include <cstdio>
-#include <iostream>
-using namespace std;
-
-typedef pair<int, pair<int,int> > point_node_nodepoint;
 /*
-point | node , nodepoint
+Date : 02/04/2020
+version : gcc 6.3.0 c++14
+problem : https://www.acmicpc.net/problem/17825
+summary : 구현문제
 */
-point_node_nodepoint dice[4];
-int turn[10];
-//** point/10 - 1
-int blue[4][8] = {
-	{},
-	{10, 13, 16, 19, 25, 30, 35, 40},
-	{20, 22, 24, 25, 30, 35, 40, -1},
-	{30, 28, 27, 26, 25, 30, 35, 40}
-	};
-int end_cnt = 0;
-bool end_dice[4] = {false, false, false, false};
+#include <iostream>
+#include <vector>
+#include <map>
+#define endl '\n'
+#define mfor(i,s,e) for(auto i = s; i <= e; ++i)
+using namespace std;
+typedef map<int,int> yut;
+typedef vector<pair<int,int> > vii;
+
+yut R = {
+	{0,2},{2,4},{4,6},{6,8},{8,10},{10,12},{12,14},{14, 16},{16, 18},{18, 20},{20, 22},{22, 24},{24, 26},{26, 28},{28, 30},{30, 32},{32, 34},{34, 36},{36, 38},{38, 40},{40, 50}
+};
+yut B = {
+	{ 10, 13 },{ 13, 16 },{ 16, 19 },
+	{ 19, 25 },{ 20, 22 },{ 22, 24 },
+	{ 24, 25 },{ 30, 28 },{ 28, 27 },
+	{ 27, 26 },{ 26, 25 },
+};
+yut B_goal = {
+	{ 25, 30 },{ 30, 35 },{ 35, 40 },{ 40, 50 }
+};
+int dice[10];
 int result = 0;
-void init()
-{
-	for (int i = 0; i < 10; ++i)
-	{
-		cin >> turn[i];
-	}
-	for (int i = 0; i < 4; ++i)
-	{
-		dice[i].first = 0;
-		dice[i].second.first = 0;
-		dice[i].second.second = 0;
+bool die[4];
+
+
+void Input(){
+	ios_base::sync_with_stdio(false);
+	cin.tie(nullptr);
+	cout.tie(nullptr);
+	mfor(i,0,9){
+		cin>>dice[i];
 	}
 }
 
-bool ch_dice(int point,int node)
-{
-	if(node == 0)
-	{
-		for (int i = 0; i < 4;++i)
-		{
-			if(dice[i].first == point && dice[i].second.first == 0)
-				return false;
-		}
-		return true;
+int Cal_val(int idx,int mal,vii &position){
+	int pos = position[mal].first;
+	int dir = position[mal].second;
+	int dice_num = dice[idx];
+
+	if(pos == 50)return -1;
+
+	mfor(j,0,dice_num-1){
+		if(dir == 0)pos = R[pos];
+		else if(dir == 1)pos = B[pos];
+		else if(dir == 2)pos = B_goal[pos];
+
+		if(pos == 25)dir = 2;
+		else if(pos == 50)break;
 	}
-	else{
-		for (int i = 0; i < 4;++i)
-		{
-			if(dice[i].first == point && dice[i].second.first != 0){
-				return false;
+
+	if(pos == 50)position[mal].first = pos;
+	else {
+		if(dir == 0 && (pos == 10 || pos == 20 || pos == 30)){
+			dir = 1;
+		}
+		bool flag = true;
+		mfor(j,0,3){
+			if(j != mal){
+				if(position[j].first == pos && (pos == 40 || position[j].second == dir) ){
+					flag = false;
+					break;
+				}
 			}
 		}
-		return true;
-	}
-}
-/*도착했으면 false 아니면 true*/
-int move_dice(int dice_index,int k)
-{
-	int now_node = dice[dice_index].second.first;
-	int now_point = dice[dice_index].first;
-	int now_address = dice[dice_index].second.second;
-	switch (now_node)
-	{
-	case 0:
-		now_point += k * 2;
-		if(!ch_dice(now_point,0))
-			return -1;
-		if(now_point > 40)
-			now_point = -1;
-		break;
-	case 1:
-		if(now_address + k < 8)
-		{
-			now_point = blue[1][now_address + k];
-			if(!ch_dice(now_point,1))
-				return -1;
-			now_address += k;
-		}
-		else
-			now_point = -1;
-		break;
-	case 2:
-		if(now_address + k < 7)
-		{
-			now_point = blue[2][now_address + k];
-			if(!ch_dice(now_point,2))
-				return -1;
-			now_address += k;
-		}
-		else
-			now_point = -1;
-		break;
-	default:
-		if(now_address + k < 8)
-		{
-			now_point = blue[3][now_address + k];
-			if(!ch_dice(now_point,3))
-				return -1;
-			now_address += k;
-		}
-		else
-			now_point = -1;
-		break;
-	}
-	if(now_point == -1)//도착
-	{
-		end_cnt += 1;
-		dice[dice_index].first = -1;
-		return 0;
-	}
-	else if(now_node == 0){
-		if(now_point % 10 == 0 && now_point / 10 != 4)
-		{
-			dice[dice_index].first = now_point;
-			dice[dice_index].second.first = now_point / 10;
+		if(flag){
+			position[mal].first = pos;
+			position[mal].second = dir;
+			return pos;
 		}
 		else{
-			dice[dice_index].first = now_point;
+			return -1;
 		}
 	}
-	else{
-		dice[dice_index].first = now_point;
-		dice[dice_index].second.second = now_address;
-	}
-	return now_point;
+	return 0;
 }
 
-
-void dfs(int n,int sum)
-{
-	if(n==10)
-	{
-		cout << "end" << sum << '\n';
-		result = result > sum ? result : sum;
-		return ;
-	}
-	else if(end_cnt == 4)
-	{
-		result = result > sum ? result : sum;
+void dfs(int idx,int val,vii &position){
+	if(idx == 10){
+		result = result < val ? val : result;
 		return;
 	}
-	else
-	{
-		for (int i = 0; i < 4;++i)
-		{
-			if(end_dice[i])
-				continue;
-			int tmp = move_dice(i, turn[n]);
-			if(tmp == -1)
-			{
-				cout << "dup\n";
-				continue;
-			}
-			else if(tmp == 0){
-				end_cnt++;
-				end_dice[i] = true;
-				cout <<n << '\t'<<sum<<'\t' << tmp << '\t' << i << '\n';
-				for (int i = 0; i < 4; ++i){
-					if(!end_dice[i])
-						cout << i << " ";
-				}
-				cout << '\n';
-				dfs(n + 1, sum);
-				end_dice[i] = false;
-				end_cnt--;
-			}
-			else{
-				cout << n << '\t'<<sum<<'\t' << tmp << '\t' << i << '\n';
-				dfs(n + 1, sum + tmp);
-			}
+	int pre_loc,pre_dir,new_val;
+	mfor(i,0,3){
+		pre_loc = position[i].first;
+		pre_dir = position[i].second;
+		new_val = Cal_val(idx,i,position);
+		if(new_val > -1){
+			dfs(idx + 1,val+new_val, position);
 		}
+		position[i].first = pre_loc;
+		position[i].second = pre_dir;
 	}
+
 }
 
-int main()
-{
-	init();
-	dfs(0,0);
-	cout << result;
+
+
+int main(){
+	Input();
+	vii position ={
+		{0,0},{0,0},{0,0},{0,0}
+	};
+	dfs(0,0,position);
+	cout<<result;
 	return 0;
 }

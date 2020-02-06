@@ -1,6 +1,6 @@
 #include <iostream>
 #include <cstring>
-//Å½»ö¹üÀ§
+//Å½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 // 2<= C <= N-1;
 // 0<= R <= N-2;
 using namespace std;
@@ -17,7 +17,6 @@ void calc(int R, int C)
 		{
 			if (R + D2 + D1 > N || C + D2 > N || C - D1 <= 0)break;
 			memset(sum_team, 0, sizeof(sum_team));
-			//a¹ø¼±°Å±¸
 			int x = 1;
 			for (int r = 1; r < R; ++r) {
 				for (int c = 1; c <= C; ++c){
@@ -30,7 +29,6 @@ void calc(int R, int C)
 				}
 				x++;
 			}
-			//b¹ø¼±°Å±¸
 			x = 0;
 			for (int r = 1; r < R; ++r) {
 				for (int c = C + 1; c <= N; ++c) {
@@ -43,7 +41,6 @@ void calc(int R, int C)
 				}
 				x++;
 			}
-			//c¹ø¼±°Å±¸
 			x = 0;
 			for (int r = R + D1 + D2; r >= R + D1; --r) {
 				for (int c = 0; c < C - D1+D2- x; ++c) {
@@ -56,7 +53,6 @@ void calc(int R, int C)
 					sum_team[2] += map[r][c];
 				}
 			}
-			//d¹ø¼±°Å±¸
 			x = 0;
 			for (int r = R + D1 + D2; r > R + D2; --r) {
 				for (int c = C+D2-D1+1+x; c <= N; ++c) {
@@ -69,7 +65,6 @@ void calc(int R, int C)
 					sum_team[3] += map[r][c];
 				}
 			}
-			//e¹ø¼±°Å±¸
 			sum_team[4] = all_sum - (sum_team[0] + sum_team[1] + sum_team[2] + sum_team[3]);
 			int Max = sum_team[0], Min = sum_team[0];
 			for (int i = 1; i < 5; ++i) {
