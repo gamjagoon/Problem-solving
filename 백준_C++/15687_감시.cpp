@@ -16,7 +16,7 @@ void remove_3(int mode, int r, int c);
 void remove_4(int mode, int r, int c);
 int calc_zero();
 void dfs(int n);
-/*µ¿: 0 ³²:1 ¼­:2 ºÏ:3*/
+/*ï¿½ï¿½: 0 ï¿½ï¿½:1 ï¿½ï¿½:2 ï¿½ï¿½:3*/
 int dir_r[4] = { 0,1,0,-1 };
 int dir_c[4] = { 1,0,-1,0 };
 int map[10][10], R, C, result, cnt_cam = 0;
