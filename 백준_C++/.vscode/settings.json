@@ -10,6 +10,17 @@
 		"functional": "cpp",
 		"limits": "cpp",
 		"tuple": "cpp",
-		"iosfwd": "cpp"
+		"iosfwd": "cpp",
+		"array": "cpp",
+		"atomic": "cpp",
+		"exception": "cpp",
+		"random": "cpp",
+		"initializer_list": "cpp",
+		"istream": "cpp",
+		"new": "cpp",
+		"ostream": "cpp",
+		"streambuf": "cpp",
+		"type_traits": "cpp",
+		"utility": "cpp"
 	}
 }
