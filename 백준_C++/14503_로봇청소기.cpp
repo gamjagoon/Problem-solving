@@ -1,103 +1,86 @@
+/*
+Date : 02/21/2020
+version : gcc 6.3.0 c++14
+problem : https://www.acmicpc.net/problem/14503
+summary : êµ¬í˜„
+*/
 #include <iostream>
-#include <cstdio>
+#define endl '\n'
+#define mfor(i,s,e) for(auto i = s; i <= e; ++i)
 using namespace std;
 
-void init();
-void view_map();
-void rotate();
-void clean();
-bool back();
-bool loc();
+//ë°©í–¥ë²¡í„° ì´ë™í•˜ëŠ”ìª½
+//0 ë¶ 1 ë™ 2 ë‚¨ 3 ì„œ
+int dir[4][2] ={
+	{-1,0},{0,1},{1,0},{0,-1}
+};
+//ë©¥êµ¬ì¡°
+int R,C,arr[50][50];
 
+//ë¡œë´‡ì²­ì†Œê¸°
+int rr,rc,rd;
 
-/*ºÏ:0 µ¿:1 ³²:2 ¼­:3*/
-int dir_r[4] = { -1,0,1,0 };
-int dir_c[4] = { 0,1,0,-1 };
-int map[50][50];
-int R, C, result_cnt = 0, dir, r, c;
-
-
-int main()
-{
-	init();
-	//view_map();
-	while (1) {
-		//¿ÞÂÊ¿¡ Ã»¼Ò Çß°Å³ª º®ÀÌ¸é È¸Àü
-		//4¹ø È¸ÀüÇß´Ù¸é µÚ¿¡ º®ÀÌ ¾Æ´Ï¶ó¸é ÈÄÁø
-		//º®ÀÌ¶ó¸é Á¾·á
-		if (map[r][c] == 0) {
-			map[r][c] = -1;
-			result_cnt++;
-		}
-		if (loc()) {
-			clean();
-		}
-		else if(!back()) {
-			break;
+void Input(){
+	ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);
+	cin>>R>>C;
+	cin>>rr>>rc>>rd;
+	mfor(r,0,R-1){
+		mfor(c,0,C-1){
+			cin>>arr[r][c];
 		}
 	}
-	printf("%d\n", result_cnt);
-	return 0;
 }
 
+int rotate(int d){
+	if(d <= 0)d = 3;
+	else d--;
+	return d;
+}
 
-void view_map()
-{
-	for (int i = 0; i < R; ++i)
-	{
-		for (int j = 0; j < C; ++j)
-			printf("%2d ", map[i][j]);
-		printf("\n");
+bool find_blank(){
+	int nd = rotate(rd);
+	int nr = rr+dir[nd][0],nc = rc+dir[nd][1];
+	rd = nd;
+	if(arr[nr][nc] == 0){
+		rr = nr;
+		rc = nc;
+		return true;
 	}
-}
-
-void init() {
-	scanf("%d %d", &R, &C);
-	scanf("%d %d %d", &r, &c, &dir);
-	for (int i = 0; i < R; ++i)
-		for (int j = 0; j < C; ++j)
-			scanf("%d", &map[i][j]);
-}
-
-void rotate()
-{
-	if (dir == 0)dir = 3;
-	else dir--;
-}
-
-void clean() 
-{
-	//¹Ì¸® È¸Àü
-	rotate();
-	int nr = r + dir_r[dir];
-	int nc = c + dir_c[dir];
-	if (map[nr][nc] == 0) {
-		r = nr; c = nc;
-	}
-	return;
-}
-
-bool loc()
-{
-	for (int i = 0; i <= 3; ++i) {
-		if (map[r + dir_r[i]][c + dir_c[i]] == 0) {
-			return true;
-		}
-	}
-	
 	return false;
 }
 
-bool back()
-{
-	int br = r - dir_r[dir];
-	int bc = c - dir_c[dir];
-	if (map[br][bc] != 1) {
-		r = br;
-		c = bc;
+bool back_is_blank(){
+	int bd = rotate(rotate(rd));
+	int br = rr + dir[bd][0],bc = rc + dir[bd][1];
+	if(arr[br][bc] != 1){
+		rr = br;
+		rc = bc;
 		return true;
 	}
-	else {
-		return false;
+	return false;
+}
+
+int main(){
+	Input();
+	bool flag;
+	int t;
+	int res = 0;
+	while(1){
+		if(arr[rr][rc] == 0){
+			res++;
+			arr[rr][rc] = 2;
+		}
+		flag = true;t = 4;
+		while(t--){
+			if(find_blank()){
+				flag = true;
+				break;
+			}
+			else flag = false;
+		}
+		if(!flag && !back_is_blank()){
+			break;
+		}
 	}
+	cout<<res;
 }

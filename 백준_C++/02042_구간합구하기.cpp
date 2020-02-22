@@ -34,8 +34,7 @@ void update(int node,int s,int e,int idx,ll diff)
 	{
 		tree[node] += diff;
 	}
-	else 
-		return ;
+	else return ;
 	if(s == e) 
 		return;
 	int m = (s+e)/2;

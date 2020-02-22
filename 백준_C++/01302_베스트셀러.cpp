@@ -1,18 +1,13 @@
 #include <iostream>
 #include <map>
 #include <set>
-#include <vector>
 using namespace std;
 int N, max_size = 0;
 map<string, int>dict;
 set<string>printlist;
-set<string>::iterator iter;
 void add_book() {
-	int ch, i = 0;
 	string a;
-	while ((ch = getchar() ) != '\n') {
-		a += ch;
-	}
+	cin>>a;
 	int dup = 0;
 	if (dict[a]) {
 		dup = dict[a] + 1;
@@ -33,12 +28,13 @@ void add_book() {
 }
 
 int main() {
-	scanf("%d ",&N);
-	fflush(stdin);
+	ios::sync_with_stdio(false);
+	cin.tie(0),cout.tie(0);
+	cin>>N;
 	while (N--)
 	{
 		add_book();
 	}
-	cout << *(iter = printlist.begin());
+	cout << *printlist.begin();
 	return 0;
 }
