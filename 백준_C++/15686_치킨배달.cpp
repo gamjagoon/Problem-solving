@@ -2,15 +2,26 @@
 #include <vector>
 
 using namespace std;
+using pii = pair<int,int>;
 
 int map[51][51];
 int N,M;
 int hsize = 0,csize = 0;
 int result = 100000;
 //C , r
-vector<pair<int,int> >ck;
-vector<pair<int,int> >hm;
-vector<int>alive;
+vector<pii >ck;
+vector<pii >hm;
+bool ch[13];
+int d[13][100];
+inline int sub(int a,int b){
+	if(a > b)return a-b;
+	else return b-a;
+}
+
+inline int distance(pii&a,pii&b){
+	return sub(a.first,b.first)+sub(a.second,b.second);
+}
+
 void init()
 {
 	ios::sync_with_stdio(false);
@@ -30,27 +41,25 @@ void init()
 	}
 	hsize = hm.size();
 	csize = ck.size();
+	for(int i = 0 ; i < ck.size(); ++i){
+		for(int j = 0; j < hm.size(); ++j){
+			d[i][j] = distance(ck[i],hm[j]);
+		}
+	}
 }
-inline int sub(int a,int b){
-	if(a > b)return a-b;
-	else return b-a;
-}
-inline int distance(int x,int y,int x2,int y2){
-	return sub(x,x2)+sub(y,y2);
-}
+
 //집을 기준으로 모든 치킨집과의 비교
-int best_ckdist(int n)
+int best_ckdist(int j)
 {
-	int nc = hm[n].first;
-	int nr = hm[n].second;
-	int cc,cr;
 	int dist = 100;
-	for(auto i : alive)
+	int tmp;
+	//살아있는 치킨집에서 치킨거리를 구한다
+	for(int i = 0 ; i < csize; ++i)
 	{
-		cc = ck[i].first;
-		cr = ck[i].second;
-		int tmp = distance(nc,nr,cc,cr);
-		dist = tmp < dist ? tmp : dist;
+		if(ch[i]){
+			tmp = d[i][j];
+			dist = tmp < dist ? tmp : dist;
+		}
 	}
 	return dist;
 }
@@ -68,9 +77,9 @@ void dfs(int n,int j)
 		result = sum < result ? sum : result;
 		return;
 	}
-	alive.push_back(j);
+	ch[j] = true;
 	dfs(n+1,j+1);
-	alive.pop_back();
+	ch[j] = false;
 	dfs(n,j+1);
 }
 
