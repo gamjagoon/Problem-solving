@@ -5,16 +5,16 @@ problem :
 summary :
 */
 #include <iostream>
+#include <bitset>
 #define endl '\n'
 #define mfor(i,s,e) for(auto i = s; i <= e; ++i)
 using namespace std;
-typedef long long ll;
 
 
 int main()
 {
-	for(ll i = 0 ; i < 100; ++i){
-		cout<<i<<'&'<<-i<<'='<<(i&-i)<<'\n';
-		
+	for(int i = 0 ; i < 100; ++i){
+		cout<<i<<endl;
+		cout<<"\t"<<bitset<33>(i)<<endl<<"\t"<<bitset<33>(-i)<<endl;
 	}
 }
