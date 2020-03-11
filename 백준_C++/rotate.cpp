@@ -4,7 +4,7 @@
 using namespace std;
 
 int R,C;
-int arr[10][10];
+char arr[10][10];
 
 template <typename T>
 void mswap(T &a, T &b){
@@ -13,7 +13,7 @@ void mswap(T &a, T &b){
 	a = tmp;
 }
 
-void view_map(int m[10][10]){
+void view_map(char m[10][10]){
 	mfor(r,0,R-1){
 		mfor(c,0,C-1){
 			cout<<m[r][c]<<' ';
@@ -21,7 +21,7 @@ void view_map(int m[10][10]){
 	}cout<<endl;
 }
 
-void cpy(int a[10][10],int b[10][10]){
+void cpy(char a[10][10],char b[10][10]){
 	mfor(r,0,R-1){
 		mfor(c,0,C-1){
 			a[r][c] = b[r][c];
@@ -29,8 +29,8 @@ void cpy(int a[10][10],int b[10][10]){
 	}
 }
 
-void rot_right(int arr[10][10]){
-	int tmp[10][10];
+void rot_right(char arr[10][10]){
+	char tmp[10][10];
 	for(int i = 0; i < R; ++i){
 		for(int j = 0 ; j < C; ++j){
 			tmp[j][R-i-1] = arr[i][j];
