@@ -11,11 +11,13 @@
             "cStandard": "c11",
             "cppStandard": "c++14",
             "intelliSenseMode": "gcc-x64",
-            "compilerPath": "C:\\gcc-9.2\\bin\\gcc",
+            "compilerPath": "C:\\gcc-9.2.0\\bin\\gcc",
             "browse": {
                 "path": [
-                    "C:\\gcc-9.2\\include",
-                    "C:\\gcc-9.2\\lib\\gcc\\x86_64-w64-mingw32\\9.2.0"
+					"C:/gcc-9.2.0/include/*",
+					"${workSpace}",
+					"C:/gcc-9.2.0/lib64/gcc/x86_64-w64-mingw32/9.2.0/include",
+					"C:/gcc-9.2.0/lib64/gcc/x86_64-w64-mingw32/9.2.0/include-fixed"
                 ]
             }
         }
