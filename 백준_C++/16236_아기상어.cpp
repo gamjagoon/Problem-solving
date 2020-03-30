@@ -1,135 +1,134 @@
-/*
-Date : 02/05/2020
-version : gcc 6.3.0 c++14
-problem : https://www.acmicpc.net/problem/16236
-summary : 시뮬레이션
-*/
 #include <iostream>
 #include <queue>
+#include <vector>
+#define mfor(i,s,e) for(auto i = s; i<= e;++i)
 #define endl '\n'
-#define mfor(i,s,e) for(auto i = s; i <= e; ++i)
 using namespace std;
-struct point{
-	int _r,_c;
-};
-
-int arr[20][20];
-bool ch[20][20];
-int dir[4][2] = {-1,0,0,-1,0,1,1,0};
-int N;
-point shark;
-int shark_sz = 2;
-int cnt = 0;
-int gogi_cnt[7];
-int result = 0;
-
-void Input(){
-	ios::sync_with_stdio(false);
-	cin.tie(0);
-	cout.tie(0);
-	cin>>N;
-	mfor(r,0,N-1){
-		mfor(c,0,N-1){
-			cin>>arr[r][c];
-			if(arr[r][c] == 0)continue;
-			else if(arr[r][c] == 9){
-				shark._r = r;
-				shark._c = c;
-			}
-			else{
-				gogi_cnt[arr[r][c]]++;
-			}
+typedef struct point {
+	int r,c;
+}P;
+bool operator<(P a, P b) {
+	if(a.r == b.r)return a.c > b.c;
+	else return a.r > b.r;
+}
+typedef struct baby {
+	int size = 2;
+	int val = 0;
+	int time = 0;
+	P pos;
+	void sizeup() {
+		if (val == size) {
+			val = 0;
+			size++;
 		}
-	}
+	};
+}baby;
+int arrsize,arr[21][21];
+/*�� �� �� ��*/
+int dir[4][2] = {{-1,0},{0,-1},{0,1},{1,0}};
+int gogi[7] ={0,0,0,0,0,0,0};
+int gogicnt = 0;
+bool inrange(P &a) {
+	return a.r > 0 && a.c > 0 && a.r <= arrsize && a.c <= arrsize;
 }
-
-void sizeup(){
-	if(cnt == shark_sz){
-		cnt = 0;
-		shark_sz++;
-	}
-}
-
-//전체고기중에 고기가 먹을수 있응게 있는가
-bool if_eat(){
-	for(int i = 1; i<shark_sz; ++i){
-		if(gogi_cnt[i] != 0){
-			return true;
-		}
-	}return false;
-}
-bool operator<(point a, point b) {
-	if(a._r == b._r)return a._c > b._c;
-	else return a._r > b._r;
-}
-
-bool Out_range(point &a){
-	if(a._r < 0 || a._c < 0 || a._r >= N || a._c >= N)return true;
-	return false;
-}
-
-bool bfs(){
-	queue <point>q;
-	priority_queue<point>cal;
-	q.push(shark);
-	int t = 1,sz;
-	point npos,pre_pos;
-	int res = -1;
-	mfor(r,0,N-1)mfor(c,0,N-1)ch[r][c] = false;
-	ch[shark._r][shark._c] = true;
-	while(!q.empty()){
-		sz = q.size();
-		for(int i = 0 ; i < sz; ++i)
+void view_debug() {
+	mfor(i, 1, arrsize)
+	{
+		mfor(j, 1, arrsize)
 		{
-			pre_pos = q.front();
+			if (arr[i][j] == 9) {
+				cout<<"* ";
+			}
+			else {
+				cout<<arr[i][j]<<' ';
+			}
+		}
+		cout<<endl;
+	}cout<<endl;
+}
+int doit(baby &shark) {
+	queue<P>q;
+	priority_queue<P>pq;
+	bool ch[21][21]={false};
+	q.push(shark.pos);
+	ch[shark.pos.r][shark.pos.c] = true;
+	int T = 1;
+	while (!q.empty()) 
+	{
+		int qs = q.size();
+		P ntmp;
+		for (int i = 0; i < qs; ++i) 
+		{
+			P tmp = q.front();
 			q.pop();
-			mfor(d,0,3){
-				npos._r = pre_pos._r + dir[d][0];
-				npos._c = pre_pos._c + dir[d][1];
-				if(!Out_range(npos) && !ch[npos._r][npos._c]){
-					if(arr[npos._r][npos._c] > shark_sz)continue;
-					else if(arr[npos._r][npos._c] == shark_sz ||arr[npos._r][npos._c] == 0){
-						ch[npos._r][npos._c] = true;
-						q.push(npos);
+			for (int k = 0; k <= 3; ++k)
+			{
+				ntmp.r = tmp.r + dir[k][0];
+				ntmp.c = tmp.c + dir[k][1];
+				if (inrange(ntmp) && !ch[ntmp.r][ntmp.c])
+				{
+					if (arr[ntmp.r][ntmp.c] > shark.size){
+						ch[ntmp.r][ntmp.c] = true;continue;
+					}
+					else if(arr[ntmp.r][ntmp.c]== shark.size || arr[ntmp.r][ntmp.c] == 0){
+						ch[ntmp.r][ntmp.c] = true;
+						q.push(ntmp);
 					}
 					else {
-						ch[npos._r][npos._c] = true;
-						cal.push(npos);
+						ch[ntmp.r][ntmp.c] = true;
+						pq.push(ntmp);
 					}
 				}
 			}
 		}
-		if(!cal.empty()){
-			npos = cal.top();
-			gogi_cnt[arr[npos._r][npos._c]]--;
-			cnt++;
-			arr[shark._r][shark._c] = 0;
-			shark = npos;
-			arr[npos._r][npos._c] = 9;
-			sizeup();
-			res = t;
-			while(!cal.empty())cal.pop();
-			break;
+		if (!pq.empty()) {
+			ntmp = pq.top();
+			gogi[arr[ntmp.r][ntmp.c]]--;
+			gogicnt--;
+			arr[shark.pos.r][shark.pos.c] = 0;
+			shark.pos = ntmp;
+			arr[shark.pos.r][shark.pos.c] = 9;
+			shark.val++;
+			shark.time += T;
+			shark.sizeup();
+			while (!q.empty())q.pop();
+			while (!pq.empty())pq.pop();
+			return 1;
 		}
-		t++;
+		T++;
 	}
-	while(!q.empty())q.pop();
-	if(res != -1){
-		result += res;
-		return true;
-	}
-	else {
-		return false;
-	}
+	return 0;
 }
-
-int main(){
-	Input();
-	while(bfs()){
-		if(!if_eat()){
-			break;
+int main()
+{
+	ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);
+	cin>>arrsize;
+	 baby shark;
+	mfor(i, 1, arrsize) {
+		mfor(j, 1, arrsize) {
+			cin>>arr[i][j];
+			if (arr[i][j] != 0) {
+				if (arr[i][j] == 9) {
+					shark.pos.r = i;
+					shark.pos.c = j;
+				}
+				else {
+					gogi[arr[i][j]]++;
+					gogicnt++;
+				}
+			}
 		}
 	}
-	cout<<result;
+	while (doit(shark) != 0) {
+		if(gogicnt == 0)break;
+		bool flag = false;
+		for (int i = shark.size; i >= 1; --i) {
+			if (gogi[i] != 0) {
+				flag = true;
+			}
+		}
+		if(!flag)break;
+	}
+	cout<<shark.time;
 	return 0;
 }
