@@ -8,10 +8,9 @@ version : gcc 6.3.0 c++14
 #define endl '\n'
 #define mfor(i,s,e) for(auto i = s; i < e; ++i)
 #define INF 1000000009
-#define io ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);
 using namespace std;
 int main() {
-	io
+	ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);
 	int T;cin>>T;
 	vector<pair<int,int>>res;
 	for(int i = 0; i < T; i ++){
