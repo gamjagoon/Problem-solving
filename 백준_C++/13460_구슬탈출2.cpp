@@ -7,7 +7,7 @@
 #define io ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);
 using namespace std;
 
-set<int>global;
+set<int>G_set;
 
 typedef struct rc{
 	int r,c;
@@ -45,8 +45,8 @@ typedef struct M
 		num += red.c;num*=10;
 		num += blue.r; num*=10;
 		num += blue.c;
-		if(global.count(num))return false;
-		global.insert(num);return true;
+		if(G_set.count(num))return false;
+		G_set.insert(num);return true;
 	}
 	void view_M(){
 		for(auto r = 0; r < this->R; ++r){
@@ -61,6 +61,7 @@ typedef struct M
 }M;
 
 int push_left(M &a){
+	CNT++;
 	rc ored = a.red,oblue = a.blue;
 	int &i = ored.c,&j = oblue.c;
 	if(ored.r == oblue.r && oblue.c < ored.c){
@@ -87,7 +88,6 @@ int push_left(M &a){
 	return 0;
 }
 M rot[4];
-
 int solve(M& a){
 	queue<M>q;
 	q.push(a);
