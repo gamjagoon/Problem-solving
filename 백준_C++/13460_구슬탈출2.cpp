@@ -61,7 +61,6 @@ typedef struct M
 }M;
 
 int push_left(M &a){
-	CNT++;
 	rc ored = a.red,oblue = a.blue;
 	int &i = ored.c,&j = oblue.c;
 	if(ored.r == oblue.r && oblue.c < ored.c){
