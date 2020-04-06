@@ -1,6 +1,8 @@
 {
     "files.associations": {
-        "iostream": "cpp"
+		"*.json": "json",
+		"iostream": "cpp",
+		"algorithm": "cpp"
 	},
 	"python.pythonPath": "C:\\Users\\gamja\\Anaconda3\\python.exe"
 }

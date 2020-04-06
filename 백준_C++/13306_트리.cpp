@@ -1,78 +1,92 @@
-/*
-Date : 02/24/2020
-version : gcc 6.3.0 c++14
-problem : https://www.acmicpc.net/problem/13306
-summary : 
-*/
 #include <iostream>
 #include <vector>
+#include <stack>
 #include <algorithm>
+#define INF 1000000009
+#define SIZE 200001
 #define endl '\n'
-#define mfor(i,s,e) for(auto i = s; i <= e; ++i)
-#define fasio ios::sync_with_stdio(false);cin.tie(0);cout.tie(0);
+
 using namespace std;
 
-constexpr int Max = 200001;
-
+//Global
 int N,Q;
+int ori[SIZE];
+int par[SIZE];
+int level[SIZE];
+int query[SIZE*2][2];
 
-int parent[Max];
-int id[Max],sz[Max];
-
-int root(int ch){
-	if(id[ch] != ch){
-		return id[ch] = root(id[ch]);
-	}
-	return ch;
+int find(int v)
+{
+	if(par[v] == v)return v;
+	return par[v] = find(par[v]);
 }
 
-void munion(int l,int r){
-	l = root(l);
-	r = root(r);
-	if(l == r)return;
-	if(sz[l] >= sz[r]){
-		id[r] = l;
-		sz[l] += sz[r];
-	}
-	else{
-		id[l] = r;
-		sz[r] += sz[l];
-	}
+void merge(int p,int q)
+{
+	p = find(p);
+	q = find(q);
+	if(p == q)return;
+	if(level[p] > level[q])swap(p,q);
+	par[p] = q;
+	if(level[p] == level[q])level[q]++;
 }
 
-int main(){
-	fasio
-	cin>>N>>Q;
-	mfor(i,1,N){
-		id[i] = i;
-	}
-	int tmp;
-	mfor(i,2,N){
-		cin>>parent[i];
-		munion(parent[i],i);
-	}
-	int a,b,c;
-	Q += N-1;
-	while(Q--){
-		cin>>a>>b;
+
+void solve(int t){
+	int a;
+	for(int i = 0 ; i < t;i++){
+		cin>>a;
 		if(a){
-			cin>>c;
-			b = root(b);
-			c = root(c);
-			if(b == c){
-				cout<<"YES\n";
-			}
-			else{
-				cout<<"NO\n";
-			}
-		}
-		else{
-			parent[b] = b;
-			id[b] = b;
-			c = root(b);
+			cin>>query[i][0]>>query[i][1];
+		}else{
+			cin>>query[i][1];
+			query[i][0] = 0;
 		}
 	}
-	return 0;
+	stack<bool>st;
+	for(int i = t-1; i >= 0 ; --i){
+		if(query[i][0] != 0){
+			if(find(query[i][1]) == find(query[i][0])){
+				st.push(true);
+			}else st.push(false);
+		}else {
+			merge(query[i][1],ori[query[i][1]]);
+		}
+	}
+	int sz = st.size();
+	for(int i = 0 ; i < sz; ++i){
+		st.top() ? cout<<"YES\n" : cout<<"NO\n";
+		st.pop();
+	}
 }
+
+int main() {
+	ios::sync_with_stdio(false);cin.tie(0);
+	cin>>N>>Q;
+	for(int i = 0 ; i <= N;++i){
+		par[i] = i;level[i] = 1;
+	}
+	int a;
+	for(int i = 2; i <= N;i++){
+		cin>>a;
+		ori[i] = a;
+	}
+	int t = N-1+Q;
+	solve(t);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
