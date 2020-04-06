@@ -9,15 +9,14 @@
             ],
             "windowsSdkVersion": "10.0.18362.0",
             "cStandard": "c11",
-            "cppStandard": "c++14",
+            "cppStandard": "c++17",
             "intelliSenseMode": "gcc-x64",
             "compilerPath": "C:\\gcc-9.2.0\\bin\\gcc",
             "browse": {
                 "path": [
-					"C:/gcc-9.2.0/include/*",
-
-					"C:/gcc-9.2.0/lib64/gcc/x86_64-w64-mingw32/9.2.0/include",
-					"C:/gcc-9.2.0/lib64/gcc/x86_64-w64-mingw32/9.2.0/include-fixed"
+                    "C:/gcc-9.2.0/include/*",
+                    "C:/gcc-9.2.0/lib64/gcc/x86_64-w64-mingw32/9.2.0/include",
+                    "C:/gcc-9.2.0/lib64/gcc/x86_64-w64-mingw32/9.2.0/include-fixed"
                 ]
             }
         }
