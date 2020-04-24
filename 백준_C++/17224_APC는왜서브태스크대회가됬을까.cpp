@@ -1,5 +1,3 @@
-//첫 줄에 문제의 개수 N, 현정이의 역량 L, 현정이가 대회중에 풀 수 있는 문제의 최대 개수 K가 주어진다.
-//둘째 줄부터 N개의 줄에 걸쳐 1 ~N번째 문제의 쉬운 버전의 난이도 sub1, 어려운 버전의 난이도 sub2 가 순서대로 주어진다.
 #include <iostream>
 using namespace std;
 int N, L, K, result = 0;
