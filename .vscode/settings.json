@@ -1,7 +1,12 @@
 {
 	"files.associations": {
+		"*.json": "json",
+		"*.cpp": "cpp",
 		"limits": "cpp",
 		"random": "cpp",
-		"algorithm": "cpp"
+		"algorithm": "cpp",
+		"iomanip": "cpp",
+		"ostream": "cpp",
+		"iostream": "cpp"
 	}
 }
