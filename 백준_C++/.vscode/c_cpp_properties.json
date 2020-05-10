@@ -8,17 +8,9 @@
                 "_UNICODE"
             ],
             "windowsSdkVersion": "10.0.18362.0",
+            "compilerPath": "C:/msys64/mingw64/bin/g++.exe",
             "cStandard": "c11",
-            "cppStandard": "c++17",
-            "intelliSenseMode": "gcc-x64",
-            "compilerPath": "C:\\gcc-9.2.0\\bin\\gcc",
-            "browse": {
-                "path": [
-                    "C:/gcc-9.2.0/include/*",
-                    "C:/gcc-9.2.0/lib64/gcc/x86_64-w64-mingw32/9.2.0/include",
-                    "C:/gcc-9.2.0/lib64/gcc/x86_64-w64-mingw32/9.2.0/include-fixed"
-                ]
-            }
+            "cppStandard": "c++17"
         }
     ],
     "version": 4
