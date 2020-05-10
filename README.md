@@ -1,3 +1,2 @@
-# 알고리즘 문제 풀이
-# 파이썬도 업로드 예정
+# Minjae's Problem Solving History
  
