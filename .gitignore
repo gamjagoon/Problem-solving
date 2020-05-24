@@ -3,7 +3,8 @@
 
 # testFile
 *.txt
-
+*.exe
+*.out
 # Compiled Object files
 *.slo
 *.lo
