@@ -13,9 +13,34 @@ using namespace std;
 char arr[65][65];
 int N;
 
-string solve(int s,int e){
+pair<bool,char>qurd(int rs,int cs,int offset) {
+  char ret = arr[rs][cs];
+  int re = rs + offset;
+  int ce = cs + offset;
+  for(int r = rs; r < re; r++){
+    for(auto c = cs; c < ce; c++){
+      if(ret != arr[r][c])return make_pair(false,ret);
+    }
+  }
+  return make_pair(true,ret);
+}
+
+string solve(int rs,int re,int cs, int ce){
   string ret = "";
-  
+  int offset = re-rs + 1;
+  if(offset == 1){
+    ret.push_back(arr[rs][cs]);
+    return ret;
+  }
+  auto[isqurd, c] = qurd(rs,cs,offset);
+  if(isqurd){
+    ret.push_back(c);
+    return ret;
+  }
+  int cm = (cs + ce)/2;
+  int rm = (rs + re)/2;
+  ret = "(" + solve(rs,rm,cs,cm) + solve(rs,rm,cm+1,ce) + solve(rm+1, re,cs,cm) + solve(rm+1,re,cm+1,ce) + ")"; 
+  return ret;
 }
 
 int main() {
@@ -24,5 +49,5 @@ int main() {
   for (int i = 0 ; i < N; i++) {
     cin>>arr[i];
   }
-  cout<<solve(1,N);
+  cout<<solve(0,N-1,0,N-1);
 }
