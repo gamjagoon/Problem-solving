@@ -30,11 +30,13 @@ string solve(int rs,int re,int cs, int ce){
   int offset = re-rs + 1;
   if(offset == 1){
     ret.push_back(arr[rs][cs]);
+    cout<<"return "<<ret<<endl;
     return ret;
   }
   auto[isqurd, c] = qurd(rs,cs,offset);
   if(isqurd){
     ret.push_back(c);
+    cout<<"return "<<ret<<endl;
     return ret;
   }
   int cm = (cs + ce)/2;
