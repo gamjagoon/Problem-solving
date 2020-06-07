@@ -8,7 +8,7 @@ string S;
 void solve()
 {
 	cin >> R >> S;
-	for(auto i : S)
+	for(auto i : S) //  "abcd"
 	{
 		int t = R;
 		while(t--)

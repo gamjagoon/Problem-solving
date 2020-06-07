@@ -12,7 +12,7 @@ using namespace std;
 
 //Global
 int N;
-int dp[1000000];
+int dp[1000001];
 
 int main() {
   ios::sync_with_stdio(false);cin.tie(0);

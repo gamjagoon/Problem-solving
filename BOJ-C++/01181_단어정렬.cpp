@@ -14,6 +14,7 @@ using namespace std;
 //Global
 string input[20000];
 set<string>ch;
+
 int N;
 int main() {
   ios::sync_with_stdio(false);cin.tie(0);
@@ -29,9 +30,13 @@ int main() {
   sort(input,input+j,[](string &A,string &B){
     auto a{A.length()};
     auto b{B.length()};
-    if(a== b){
+    if(a == b){
+      // A : "aa"
+      // B : "ab"
       return A < B;
     }else{
+      // a "abc" = 3
+      // b "abcd" = 4
       return a < b;
     }
   });
