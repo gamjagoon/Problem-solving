@@ -16,7 +16,7 @@ def calc(S, cur, end):
     tmp = S[cur:cur+2]
     if tmp in M_set:
         return calc(S, cur+2, end)
-    return
+    return False
 
 
 if __name__ == "__main__":
