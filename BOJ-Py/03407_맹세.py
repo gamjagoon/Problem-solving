@@ -1,5 +1,4 @@
 import sys
-from collections import deque
 
 M_set = set(["h", "he", "li", "be", "b", "c", "n", "o", "f", "ne", "na", "mg", "al", "si", "p", "s", "cl", "ar",
              "k", "ca", "sc", "ti", "v", "cr", "mn", "fe", "fe", "co", "ni", "cu", "zn", "ga", "ge", "as", "se", "br", "kr", "rb", "sr", "y", "zr", "nb",
@@ -10,26 +9,16 @@ M_set = set(["h", "he", "li", "be", "b", "c", "n", "o", "f", "ne", "na", "mg", "
 
 
 def calc(S):
-    q = deque()
-    Flag = False
-    q.append(0)
-    L = len(S)
-    visit = [0 for i in range(L+1)]
-    while len(q) != 0 :
-        idx = q.popleft()
-        if idx == L :
-            Flag = True
-            break
-        tmp1 = S[idx]
-        tmp2 = S[idx:idx+2]
-        if tmp1 in M_set and visit[idx+1] == 0 :
-            visit[idx+1] = 1
-            q.append(idx+1)
-        if tmp2 in M_set and visit[idx+2] == 0 :
-            visit[idx+2] = 1 
-            q.append(idx+2)
+    flag = [True]
+    flag.append(S[0] in M_set)
+
+    if len(S) == 1:
+        return flag[1]
     
-    return Flag
+    for i in range(2, len(S) + 1) :
+        flag.append((flag[i-1] and (S[i-1] in M_set)) or (flag[i-2] and (S[i-2:i] in M_set)))
+    
+    return flag[len(S)]
 
 
 
