@@ -1,5 +1,5 @@
 import sys
-
+from collections import deque
 
 M_set = set(["h", "he", "li", "be", "b", "c", "n", "o", "f", "ne", "na", "mg", "al", "si", "p", "s", "cl", "ar",
              "k", "ca", "sc", "ti", "v", "cr", "mn", "fe", "fe", "co", "ni", "cu", "zn", "ga", "ge", "as", "se", "br", "kr", "rb", "sr", "y", "zr", "nb",
@@ -8,15 +8,29 @@ M_set = set(["h", "he", "li", "be", "b", "c", "n", "o", "f", "ne", "na", "mg", "
              "ac", "th", "pa", "u", "np", "pu", "am", "cm", "bk", "cf", "es", "fm", "md", "no", "lr"])
 
 
-def calc(S, cur, end):
-    if cur >= end:
-        return True
-    if S[cur] in M_set:
-        return calc(S, cur+1, end)
-    tmp = S[cur:cur+2]
-    if tmp in M_set:
-        return calc(S, cur+2, end)
-    return False
+
+def calc(S):
+    q = deque()
+    Flag = False
+    q.append(0)
+    L = len(S)
+    visit = [0 for i in range(L+1)]
+    while len(q) != 0 :
+        idx = q.popleft()
+        if idx == L :
+            Flag = True
+            break
+        tmp1 = S[idx]
+        tmp2 = S[idx:idx+2]
+        if tmp1 in M_set and visit[idx+1] == 0 :
+            visit[idx+1] = 1
+            q.append(idx+1)
+        if tmp2 in M_set and visit[idx+2] == 0 :
+            visit[idx+2] = 1 
+            q.append(idx+2)
+    
+    return Flag
+
 
 
 if __name__ == "__main__":
@@ -24,8 +38,7 @@ if __name__ == "__main__":
     while n:
         n -= 1
         S = sys.stdin.readline().rstrip()
-        end = len(S)
-        ret = calc(S, 0, len(S))
+        ret = calc(S)
         if ret:
             print("YES")
         else:
