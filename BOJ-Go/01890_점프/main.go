@@ -10,51 +10,52 @@ var scanner *bufio.Scanner
 
 func init() {
 	scanner = bufio.NewScanner(os.Stdin)
+	scanner.Split(bufio.ScanWords)
 }
 
-func main() {
+func nextInt() int{
 	scanner.Scan()
-	line := scanner.Bytes()
-	result := make([]string,0)
-	cnt,L,flag := 0,len(line),true
-	for i := 0; i < L; i++{
-		if line[i] == 'X'{
-			cnt++
-		} else {
-			if cnt % 2 == 0{
-				j := cnt / 4
-				cnt -= j * 4
-				for k:= 0; k < j;k++{
-					result = append(result,"AAAA")
-				} 
-				if cnt != 0 {
-					result = append(result,"BB")
+	sign, val := 1, 0
+	for _, b := range scanner.Bytes() {
+		if(b == '-'){
+			sign = -1
+		}
+		val *= 10
+		val += int(b - '0')
+	}
+	return sign*val
+}
+
+
+func main() {
+	N := nextInt()
+	data := make([][]int,N,N)
+	for i := range data {
+		data[i] = make([]int, N,N)
+		for j := range data[i]{
+			data[i][j] = nextInt()
+		}
+	}
+	data[N-1][N-1] = 1
+	dp := make([][]int,N,N)
+	for i := range dp {
+		dp[i] = make([]int, N,N)
+		for j := range dp[i] {
+			dp[i][j] = 0
+		}
+	}
+	dp[0][0] = 1
+	for i := range dp {
+		for j := range dp[i] {
+			if dp[i][j] != 0{
+				if j + data[i][j] < N {
+					dp[i][j+data[i][j]]+=dp[i][j]
 				}
-				result = append(result,".")
-				cnt = 0
-			} else {
-				flag = false
-				break
+				if i + data[i][j] < N {
+					dp[i+data[i][j]][j]+=dp[i][j]
+				}
 			}
 		}
 	}
-	if cnt % 2 == 0{
-		j := cnt / 4
-		cnt -= j * 4
-		for k:= 0; k < j;k++{
-			result = append(result,"AAAA")
-		} 
-		if cnt != 0 {
-			result = append(result,"BB")
-		}
-	} else {
-		flag = false
-	}
-	if flag {
-		for _, str := range result{
-			fmt.Print(str)
-		}
-	} else{
-		fmt.Print("-1")
-	}
+	fmt.Printf("%d",dp[N-1][N-1])
 }
