@@ -1,0 +1,11 @@
+{
+  "files.associations": {
+    "*.html": "html",
+    "*.c": "c",
+    "*.tcc": "cpp",
+    "deque": "cpp",
+    "list": "cpp",
+    "string": "cpp",
+    "vector": "cpp"
+  }
+}
