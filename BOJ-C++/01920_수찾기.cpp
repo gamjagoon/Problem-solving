@@ -1,20 +1,29 @@
-#include <stdio.h>
-#include <set>
+
+/*
+Date : 07/15/2020
+version : gcc 9.2.0 c++17
+problem : 
+summary : set
+*/
+#include <iostream>
+#include <unordered_set>
+#define endl '\n'
 using namespace std;
-set<int>s;
-int N, M;
+
+//Global
+unordered_set<int>s;
+
 int main() {
-	scanf("%d", &N);
+	ios::sync_with_stdio(false);cin.tie(0);
+	int N, M,tmp;
+	cin>>N;
 	for (int i = 0; i < N; ++i) {
-		int tmp;
-		scanf("%d", &tmp);
+		cin>>tmp;
 		s.insert(tmp);
 	}
-	scanf("%d", &M);
+	cin>>M;
 	for (int i = 0; i < M; ++i) {
-		int tmp;
-		scanf("%d", &tmp);
-		printf("%d\n", s.count(tmp));
+		cin>>tmp;
+		cout<<s.count(tmp)<<endl;
 	}
-	return 0;
 }
